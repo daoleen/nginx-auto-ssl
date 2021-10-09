@@ -8,6 +8,8 @@ services:
       # Required
       - SERVER_NAME=localhost
       - SSL_ENABLED=1
+      - SSL_ENABLED_PKCS12=1
+      - SSL_PKCS12_PASSWORD=password1
       - CERTBOT_EMAIL=daoleen@localhost.su
 
       # Optional (Defaults)

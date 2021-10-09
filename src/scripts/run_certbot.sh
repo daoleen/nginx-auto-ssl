@@ -99,6 +99,11 @@ for conf_file in /etc/nginx/conf.d/*.conf*; do
         if ! get_certificate "${cert_name}" "${domain_request}" "${key_type}"; then
             error "Certbot failed for '${cert_name}'. Check the logs for details."
         fi
+
+        if [ 1 = "${SSL_ENABLED_PKCS12}" ]; then
+            info "Generating PKCS12 certificate for ${cert_name}..."
+            openssl pkcs12 -export -in /etc/letsencrypt/live/${cert_name}/fullchain.pem -inkey /etc/letsencrypt/live/${cert_name}/privkey.pem -out /etc/letsencrypt/live/${cert_name}/keystore.p12 -name pkcs12-cert -CAfile /etc/letsencrypt/live/${cert_name}/chain.pem -caname root -passout pass:${SSL_PKCS12_PASSWORD}
+        fi
     done
 done
 
