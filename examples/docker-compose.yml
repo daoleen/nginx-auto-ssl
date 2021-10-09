@@ -2,18 +2,29 @@ version: '3'
 
 services:
   nginx:
-    image: jonasal/nginx-certbot:latest
+    image: daoleen/nginx-auto-ssl:1.21.3
     restart: unless-stopped
     environment:
-      - CERTBOT_EMAIL
-    env_file:
-      - ./nginx-certbot.env
+      # Required
+      - SERVER_NAME=localhost
+      - SSL_ENABLED=1
+      - CERTBOT_EMAIL=daoleen@localhost.su
+
+      # Optional (Defaults)
+      - STAGING=0
+      - DHPARAM_SIZE=2048
+      - RSA_KEY_SIZE=2048
+      - ELLIPTIC_CURVE=secp256r1
+      - USE_ECDSA=0
+      - RENEWAL_INTERVAL=8d
+
+      # Advanced (Defaults)
+      - DEBUG=0
+      - USE_LOCAL_CA=0
     ports:
       - 80:80
       - 443:443
     volumes:
-      - nginx_secrets:/etc/letsencrypt
-      - ./user_conf.d:/etc/nginx/user_conf.d
-
-volumes:
-  nginx_secrets:
+      - ./certs:/etc/letsencrypt
+      - ./templates:/etc/nginx/user_templates
+      - ./conf.d:/etc/nginx/user_conf.d

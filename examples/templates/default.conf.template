@@ -1,0 +1,11 @@
+server {
+    # Listen to port 80 on both IPv4 and IPv6.
+    listen 80 default_server reuseport;
+    listen [::]:80 default_server reuseport;
+
+    # Domain names this server should respond to.
+    server_name ${SERVER_NAME};
+
+    return 200 'Running just HTTP ${SERVER_NAME}';
+    add_header Content-Type text/plain;
+}

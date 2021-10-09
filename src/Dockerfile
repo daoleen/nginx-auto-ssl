@@ -1,5 +1,5 @@
 FROM nginx:1.21.3
-LABEL maintainer="Jonas Alfredsson <jonas.alfredsson@protonmail.com>"
+LABEL maintainer="daoleen"
 
 ARG BUILDX_QEMU_ENV
 
@@ -46,6 +46,8 @@ RUN set -ex && \
 # Create new directories and set correct permissions.
     mkdir -p /var/www/letsencrypt && \
     mkdir -p /etc/nginx/user_conf.d && \
+    mkdir -p /etc/nginx/user_templates && \
+    mkdir -p /etc/nginx/templates && \
     chown www-data:www-data -R /var/www \
     && \
 # Make sure there are no surprise config files inside the config folder.
@@ -55,6 +57,9 @@ RUN set -ex && \
 # ACME challenge requests are correctly forwarded to certbot and then redirects
 # everything else to HTTPS.
 COPY nginx_conf.d/ /etc/nginx/conf.d/
+
+COPY 1-startup.sh /docker-entrypoint.d/
+RUN chmod +x /docker-entrypoint.d/1-startup.sh
 
 # Copy in all our scripts and make them executable.
 COPY scripts/ /scripts
