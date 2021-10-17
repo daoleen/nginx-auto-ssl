@@ -1,3 +1,21 @@
+# nginx-auto-ssl
+This is the extended from docker-nginx-certbot docker image which allows to conditionally generate and use SSL depends 
+on environment variables provided.
+  
+Environment variables which was added into that image:   
+* SERVER_NAME : a server name for which we should generate a certificate. Example: example.org
+* SSL_ENABLED : if **1** the certificate will be generated and used in the container; 0 - certificate won't be generated/used
+* SSL_ENABLED_PKCS12 : if **1** there will be also generated PKCS12 certificate based on generated pem; 0 - certificate won't be generated
+* SSL_PKCS12_PASSWORD : password for the PKCS12 certificate
+* -**other environment variables from the parent image**-
+
+Volumes which is used in that image:  
+* /etc/letsencrypt : folder where Let's Encrypt puts generated assets
+* /etc/nginx/user_templates : custom &lt;template&gt; configs for nginx server
+* /etc/nginx/user_conf.d : custom configs for nginx server
+
+
+# [PARENT IMAGE]
 # docker-nginx-certbot
 
 Automatically create and renew website SSL certificates using the
