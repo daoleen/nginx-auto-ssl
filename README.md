@@ -14,6 +14,7 @@ Volumes which is used in that image:
 * /etc/nginx/user_templates : custom &lt;template&gt; configs for nginx server
 * /etc/nginx/user_conf.d : custom configs for nginx server
 
+The image is available on DockerHub: https://hub.docker.com/repository/docker/daoleen/nginx-auto-ssl/general
 
 # [PARENT IMAGE]
 # docker-nginx-certbot
